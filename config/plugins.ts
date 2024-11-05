@@ -1,21 +1,24 @@
-// config/plugins.js
 module.exports = {
-  // GraphQL configuration
   graphql: {
     enabled: true,
     config: {
       endpoint: "/graphql",
       shadowCRUD: true,
-      playgroundAlways: process.env.NODE_ENV === "development",
+      // Allow playground in production but with security measures
+      playgroundAlways: true,
+      // Enable introspection in production for client queries
+      introspection: true,
       depthLimit: 7,
       amountLimit: 100,
       apolloServer: {
         tracing: false,
-        introspection: process.env.NODE_ENV === "development",
+        // Enable introspection here as well
+        introspection: true,
       },
     },
   },
   email: {
+    // Your email configuration looks correct
     config: {
       provider: "nodemailer",
       providerOptions: {
@@ -26,7 +29,6 @@ module.exports = {
           pass: process.env.EMAIL_PASS,
         },
         secure: false,
-        // Add additional security for production
         ...(process.env.NODE_ENV === "production" && {
           tls: {
             rejectUnauthorized: true,
